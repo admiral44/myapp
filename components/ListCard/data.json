@@ -1,0 +1,44 @@
+[
+    {
+        "id":1,
+        "name":"Shubham",
+        "age":26,
+        "company":"Cognizant",
+        "designation":"Software Engineer"
+    },
+    {
+        "id":2,
+        "name":"Vaishnavi",
+        "age":26,
+        "company":"Infosys",
+        "designation":"Software Engineer"
+    },
+    {
+        "id":3,
+        "name":"Nikhil",
+        "age":26,
+        "company":"GCC",
+        "designation":"Software Engineer"
+    },
+    {
+        "id":4,
+        "name":"Vishal",
+        "age":26,
+        "company":"Wipro",
+        "designation":"Software Engineer"
+    },
+    {
+        "id":5,
+        "name":"Akash",
+        "age":26,
+        "company":"Deloitte",
+        "designation":"Software Tester"
+    },
+    {
+        "id":6,
+        "name":"Ganesh",
+        "age":26,
+        "company":"Google",
+        "designation":"Human Resource"
+    }
+]
