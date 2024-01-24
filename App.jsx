@@ -12,6 +12,7 @@ import LoginScreen from './Screens/LoginScreen';
 
 // Icons import.
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const StackNavigation = createNativeStackNavigator();
 
@@ -32,7 +33,7 @@ const App = () => {
                 <StackNavigation.Screen name="Home" component={HomeScreen} options={{
                     headerRight: () =>
                         <Pressable onPress={onPressFunction}>
-                            <Ionicons name="log-out" size={24} />
+                            <Ionicons name="menu" size={24} />
                         </Pressable>
                 }} />
             </StackNavigation.Navigator>

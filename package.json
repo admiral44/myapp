@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@atlaskit/textfield": "^6.0.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "link": "^2.1.0",
