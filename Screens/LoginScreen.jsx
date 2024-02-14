@@ -25,14 +25,14 @@ const LoginScreen = (props) => {
         // console.warn(formData.user_number, formData.user_password);
         if (formData.user_number !== '' && formData.user_password !== '') {
 
-            if (formData.user_number !== '9049789306' && formData.user_password !== 'Sh123') {
-                setIsLoading(false);
-                Alert.alert('Error', 'Invalid Credentials')
-            } else {
+            if (formData.user_number == '9049789306' && formData.user_password == 'Sh123') {
                 setTimeout(() => {
                     setIsLoading(false);
                     navigate('Home', { name: 'Shubham' })
                 }, 1000);
+            } else {
+                setIsLoading(false);
+                Alert.alert('Error', 'Invalid Credentials')
             }
         } else {
             setIsLoading(false);
@@ -48,35 +48,35 @@ const LoginScreen = (props) => {
                 <FontAwesome6 name="circle-user" size={30} color={'#f5f5f5'} />
                 <Text style={styles.title}>Login</Text>
             </View>
-            
 
-            <TextInput 
-                placeholder='Enter Number' 
-                keyboardType='decimal-pad' 
-                style={styles.input} 
+            <Text style={styles.labelText}>Number</Text>
+            <TextInput
+                keyboardType='decimal-pad'
+                style={styles.inputStyle}
                 onChangeText={(val) => TextInputHandler(val, 'user_number')}
             />
-            <TextInput 
-                placeholder='Password' 
-                secureTextEntry={true} 
-                keyboardType='default' 
-                style={styles.input} 
+
+            <Text style={styles.labelText}>Password</Text>
+            <TextInput
+                secureTextEntry={true}
+                keyboardType='default'
+                style={styles.inputStyle}
                 onChangeText={(val) => TextInputHandler(val, 'user_password')}
             />
 
             <View style={styles.innerContainer}>
                 <Pressable>
-                    <Text>Forgot Password ?</Text>
+                    <Text style={styles.text}>Forgot Password?</Text>
                 </Pressable>
 
                 <Pressable>
-                    <Text>New User</Text>
+                    <Text style={styles.text}>New User</Text>
                 </Pressable>
             </View>
 
             <Pressable style={styles.button} onPress={() => onFromSubmitHandler()}>
                 {
-                    isLoading ? <ActivityIndicator size={'small'} color={'#f5f5f5'} /> : <Text>Login</Text> 
+                    isLoading ? <ActivityIndicator size={'small'} color={'#f5f5f5'} /> : <Text style={styles.text}>Login</Text>
                 }
             </Pressable>
         </View>
@@ -109,13 +109,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#f5f5f5',
     },
-    input: {
+    inputStyle: {
         height: 40,
         width: '100%',
         borderColor: '#343a40',
         borderWidth: 1,
         borderRadius: 4,
         padding: 8,
+        color: '#f5f5f5',
+        textTransform: 'capitalize'
     },
     button: {
         width: '100%',
@@ -123,6 +125,22 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 4,
         alignItems: 'center',
+    },
+    text: {
+        color: '#f5f5f5',
+        fontSize: 14,
+        fontWeight: '400',
+        textAlign: 'center',
+        textTransform: 'capitalize'
+    },
+    labelText: {
+        color: '#f5f5f5',
+        paddingLeft: 2,
+        fontSize: 14,
+        fontWeight: '400',
+        textAlign: 'left',
+        textTransform: 'capitalize',
+        width: '100%',
     }
 })
 

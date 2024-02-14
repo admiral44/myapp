@@ -15,9 +15,9 @@ const HomeScreen = (props) => {
 
     return (
         <View style={HomeStyles.container}>
-            <Text>Home Screen</Text>
-            <Text>{Platform.OS}, {Platform.Version}</Text>
-            <Text>Platform : {JSON.stringify(Platform.constants)}</Text>
+            <Text style={HomeStyles.text}>Home Screen</Text>
+            <Text style={HomeStyles.text}>{Platform.OS}, {Platform.Version}</Text>
+            <Text style={HomeStyles.text}>Platform : {JSON.stringify(Platform.constants)}</Text>
 
             <Pressable style={HomeStyles.button} onPress={() => onPressLogout()}>
                 <Text>Logout</Text>
@@ -41,7 +41,14 @@ const HomeStyles = StyleSheet.create({
         padding: 8,
         borderRadius: 4,
         alignItems: 'center',
-    }
+    },
+    text: {
+        color: '#f5f5f5',
+        fontSize: 14,
+        fontWeight: '400',
+        textAlign: 'center',
+        textTransform: 'capitalize'
+    },
 })
 
 export default HomeScreen;

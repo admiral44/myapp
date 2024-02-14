@@ -33,7 +33,7 @@ const App = () => {
                 <StackNavigation.Screen name="Home" component={HomeScreen} options={{
                     headerRight: () =>
                         <Pressable onPress={onPressFunction}>
-                            <Ionicons name="menu" size={24} />
+                            <Ionicons name="menu" size={24} color="#f5f5f5" />
                         </Pressable>
                 }} />
             </StackNavigation.Navigator>
