@@ -1,4 +1,8 @@
 import React from 'react'
+
+// Context
+import ThemeProvider from './Contexts/index'
+
 import { Button, Text, View, Alert, StyleSheet, StatusBar, Pressable, Image } from 'react-native';
 import CardComp from './components/card/CardComp';
 import TestComp from './components/testcomp/TestComp';
@@ -7,12 +11,16 @@ import ListComp from './components/ListCard/ListComp';
 import AppCss from './AppCss';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Screens
 import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
+import Register from './Screens/Register';
 
 // Icons import.
-import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+
 
 const StackNavigation = createNativeStackNavigator();
 
@@ -26,18 +34,21 @@ const App = () => {
     }
 
     return (
-        <NavigationContainer>
-            <StackNavigation.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1e1e1e' }, headerTintColor: '#f5f5f5', headerBackVisible: false }}>
-                <StackNavigation.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <ThemeProvider>
+            <NavigationContainer>
+                <StackNavigation.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1e1e1e' }, headerTintColor: '#f5f5f5', headerBackVisible: false }}>
+                    <StackNavigation.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+                    <StackNavigation.Screen name='Register' component={Register} options={{ headerShown: false }} />
 
-                <StackNavigation.Screen name="Home" component={HomeScreen} options={{
-                    headerRight: () =>
-                        <Pressable onPress={onPressFunction}>
-                            <Ionicons name="menu" size={24} color="#f5f5f5" />
-                        </Pressable>
-                }} />
-            </StackNavigation.Navigator>
-        </NavigationContainer>
+                    <StackNavigation.Screen name="Home" component={HomeScreen} options={{
+                        headerRight: () =>
+                            <Pressable onPress={onPressFunction}>
+                                <Ionicons name="menu" size={24} color="#f5f5f5" />
+                            </Pressable>
+                    }} />
+                </StackNavigation.Navigator>
+            </NavigationContainer>
+        </ThemeProvider>
     )
 }
 

@@ -13,6 +13,7 @@
     "@atlaskit/textfield": "^6.0.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+    "axios": "^1.6.7",
     "link": "^2.1.0",
     "react": "18.2.0",
     "react-native": "^0.72.6",
