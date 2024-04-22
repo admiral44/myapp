@@ -3,7 +3,8 @@ const SCREENS = {
     REGISTER: 'Register',
     HOME: 'Home',
     PROFILE: 'Profile',
-    SETTINGS: 'Settings'
+    SETTINGS: 'Settings',
+    LOADING: 'Loading'
 }
 
 export default SCREENS;

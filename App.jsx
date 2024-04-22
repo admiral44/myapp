@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button, Text, View, Alert, StyleSheet, StatusBar, Pressable, Image } from 'react-native';
 // import CardComp from './components/card/CardComp';
 // import TestComp from './components/testcomp/TestComp';
 // import FormComp from './components/formcomp/FormComp';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { ActivityIndicator, StatusBar, Text, TextInput, View, StyleSheet, Pressable, ToastAndroid } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import { client } from '../../API/client';
@@ -10,8 +10,8 @@ const LoginScreen = (props) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        user_number: '',
-        user_password: ''
+        number: '',
+        password: ''
     })
 
     const TextInputHandler = (val, name) => {
@@ -20,12 +20,11 @@ const LoginScreen = (props) => {
 
     const onFromSubmitHandler = async () => {
         setIsLoading(true);
-        // console.warn(formData.user_number, formData.user_password);
-        if (formData.user_number !== '' && formData.user_password !== '') {
-
+        if (formData.number !== '' && formData.password !== '') {
             try {
                 const res = await client.post('/login', formData)
-                const data = res.data;
+                const data = await res.data;
+                console.log("data : ", await data);
                 if (data.code == 200 && data.status == 'success') {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT);
                     setTimeout(() => {
@@ -37,13 +36,13 @@ const LoginScreen = (props) => {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT);
                 }
             } catch (error) {
-                ToastAndroid.show('Error : ' + error, ToastAndroid.SHORT);
+                console.log("onFromSubmitHandler error : ", error.message)
+                ToastAndroid.show('Error : Something went wrong ' + error, ToastAndroid.SHORT);
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 500);
-            }
-            
+            } 
         } else {
             setIsLoading(false);
             ToastAndroid.show('Please fill all fields!!', ToastAndroid.SHORT);
@@ -64,7 +63,7 @@ const LoginScreen = (props) => {
                 keyboardType='decimal-pad'
                 style={styles.inputStyle}
                 value={formData.user_number}
-                onChangeText={(val) => TextInputHandler(val, 'user_number')}
+                onChangeText={(val) => TextInputHandler(val, 'number')}
             />
 
             <Text style={styles.labelText}>Password</Text>
@@ -73,7 +72,7 @@ const LoginScreen = (props) => {
                 keyboardType='default'
                 style={styles.inputStyle}
                 value={formData.user_password}
-                onChangeText={(val) => TextInputHandler(val, 'user_password')}
+                onChangeText={(val) => TextInputHandler(val, 'password')}
             />
 
             <View style={styles.innerContainer}>

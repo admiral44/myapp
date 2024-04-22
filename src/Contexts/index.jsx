@@ -8,7 +8,9 @@ const initialContext = {
     isLoading: false,
     setIsLoading: () => {},
     accessToken: null,
-    setAccessToken: () => {}
+    setAccessToken: () => {},
+    userLogin: () => {},
+    userLogout: () => {},
 }
 
 export const mainContext = createContext(initialContext)
@@ -19,6 +21,24 @@ const ThemeProvider = ({ children }) => {
     const [userRegistration, setUserRegistration] = useState(initialContext.userRegistration)
     const [isLoading, setIsLoading] = useState(initialContext.isLoading)
     const [accessToken, setAccessToken] = useState(initialContext.accessToken)
+    
+    const userLogin = () => {
+        setIsLoading(true);
+        setAccessToken('kajhsdkjhakjs');
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+    }
+
+    const userLogout = () => {
+        setIsLoading(true);
+        setAccessToken(null);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+    }
 
     return (
         <>
@@ -30,7 +50,9 @@ const ThemeProvider = ({ children }) => {
                 isLoading,
                 setIsLoading,
                 accessToken,
-                setAccessToken
+                setAccessToken,
+                userLogin,
+                userLogout
             }}>
                 {children}
             </mainContext.Provider>

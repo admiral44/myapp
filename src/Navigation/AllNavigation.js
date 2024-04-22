@@ -37,7 +37,7 @@ const AllNavigation = () => {
             <StackNav.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1e1e1e' }, headerTintColor: '#f5f5f5', headerBackVisible: false }}>
                 {
                     isLoading
-                        ? <StackNav.Screen name={"Loading"} component={LoadingScreen} options={{ headerShown: false }} />
+                        ? <StackNav.Screen name={SCREENS.LOADING} component={LoadingScreen} options={{ headerShown: false }} />
                         : accessToken !== null
                             ? (<StackNav.Screen
                                 name={SCREENS.HOME}
