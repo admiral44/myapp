@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react'
 import { Text, View, Button, Platform, StyleSheet, Pressable } from 'react-native'
 
@@ -7,14 +8,17 @@ import { Text, View, Button, Platform, StyleSheet, Pressable } from 'react-nativ
 
 const HomeScreen = (props) => {
 
+    const navRoute = useRoute();
+    const { name } = navRoute.params;
     const { navigation, route } = props;
- 
+
     const onPressLogout = () => {
         navigation.navigate('Login');
     }
 
     return (
         <View style={HomeStyles.container}>
+            <Text style={HomeStyles.normalText}>Welcome {name}</Text>
             {/* <Text style={HomeStyles.text}>Home Screen</Text>
             <Text style={HomeStyles.text}>{Platform.OS}, {Platform.Version}</Text>
             <Text style={HomeStyles.text}>Platform : {JSON.stringify(Platform.constants)}</Text> */}
@@ -49,6 +53,13 @@ const HomeStyles = StyleSheet.create({
         textAlign: 'center',
         textTransform: 'capitalize'
     },
+    normalText: {
+        color: '#1e1e1e',
+        fontSize: 14,
+        fontWeight: '400',
+        textAlign: 'center',
+        textTransform: 'capitalize'
+    }
 })
 
 export default HomeScreen;

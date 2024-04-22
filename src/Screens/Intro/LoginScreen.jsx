@@ -3,10 +3,12 @@ import { ActivityIndicator, StatusBar, Text, TextInput, View, StyleSheet, Pressa
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import { client } from '../../API/client';
 import SCREENS from '../index.js';
+import { mainContext } from '../../Contexts';
 
 const LoginScreen = (props) => {
 
     const { navigate } = props.navigation;
+    const {setAccessToken} = useContext(mainContext);
 
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -24,13 +26,14 @@ const LoginScreen = (props) => {
             try {
                 const res = await client.post('/login', formData)
                 const data = await res.data;
-                console.log("data : ", await data);
-                if (data.code == 200 && data.status == 'success') {
+                // console.log("data : ", data.status === 200 && data.statusMessage === 'Success');
+                if (data.status === "200" && data.statusMessage === 'Success') {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT);
+                    setAccessToken(data.data.token);
                     setTimeout(() => {
                         setIsLoading(false);
                         setFormData({ user_number: '', user_password: '' });
-                        navigate(SCREENS.HOME, { name: formData.user_number })
+                        navigate(SCREENS.HOME, { name: data.data.name })
                     }, 500);
                 } else {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT);

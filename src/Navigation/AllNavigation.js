@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Button, Text, View, Alert, StyleSheet, StatusBar, Pressable, Image } from 'react-native';
 
-// Screens
+// Screens text.
 import SCREENS from '../Screens/index.js';
 import COLORS from '../Assets/colors/index.js';
 
@@ -40,7 +40,7 @@ const AllNavigation = () => {
                         ? <StackNav.Screen name={SCREENS.LOADING} component={LoadingScreen} options={{ headerShown: false }} />
                         : accessToken !== null
                             ? (<StackNav.Screen
-                                name={SCREENS.HOME}
+                                name={SCREENS.TAB_NAV}
                                 component={TabNavigator}
                                 options={{
                                     headerShown: false,
@@ -68,10 +68,11 @@ export const TabNavigator = () => {
     }
 
     return (
-        <Tab.Navigator initialRouteName={SCREENS.HOME}>
-            <Tab.Screen
+        <TabNav.Navigator initialRouteName={SCREENS.HOME}>
+            <TabNav.Screen
                 name={SCREENS.HOME}
                 component={HomeScreen}
+                initialParams=""
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ focused }) => (
@@ -99,7 +100,7 @@ export const TabNavigator = () => {
                 }}
             />
 
-            <Tab.Screen
+            <TabNav.Screen
                 name={SCREENS.PROFILE}
                 component={Profile}
                 options={{
@@ -122,7 +123,7 @@ export const TabNavigator = () => {
                 }}
             />
 
-            <Tab.Screen
+            <TabNav.Screen
                 name={SCREENS.SETTINGS}
                 component={Setting}
                 options={{
@@ -145,7 +146,7 @@ export const TabNavigator = () => {
                     }
                 }}
             />
-        </Tab.Navigator>
+        </TabNav.Navigator>
     )
 }
 

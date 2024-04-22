@@ -1,4 +1,5 @@
 const SCREENS = {
+    TAB_NAV: 'TabNavigator',
     LOGIN: 'Login',
     REGISTER: 'Register',
     HOME: 'Home',
