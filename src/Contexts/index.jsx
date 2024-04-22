@@ -5,6 +5,10 @@ const initialContext = {
     setTheme: () => {},
     userRegistration: [],
     setUserRegistration: () => {},
+    isLoading: false,
+    setIsLoading: () => {},
+    accessToken: null,
+    setAccessToken: () => {}
 }
 
 export const mainContext = createContext(initialContext)
@@ -13,6 +17,8 @@ const ThemeProvider = ({ children }) => {
 
     const [theme, setTheme] = useState(initialContext.theme)
     const [userRegistration, setUserRegistration] = useState(initialContext.userRegistration)
+    const [isLoading, setIsLoading] = useState(initialContext.isLoading)
+    const [accessToken, setAccessToken] = useState(initialContext.accessToken)
 
     return (
         <>
@@ -20,7 +26,11 @@ const ThemeProvider = ({ children }) => {
                 theme,
                 setTheme,
                 userRegistration,
-                setUserRegistration
+                setUserRegistration,
+                isLoading,
+                setIsLoading,
+                accessToken,
+                setAccessToken
             }}>
                 {children}
             </mainContext.Provider>
