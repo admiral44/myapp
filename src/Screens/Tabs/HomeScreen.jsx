@@ -1,6 +1,9 @@
+import React, { useState, useContext, useMemo } from 'react'
 import { useRoute } from '@react-navigation/native';
-import React from 'react'
-import { Text, View, Button, Platform, StyleSheet, Pressable } from 'react-native'
+
+import { Text, View, Button, Platform, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
+import SCREENS from '..';
+import { mainContext } from '../../Contexts';
 
 
 // import { Label } from '@atlaskit/form';
@@ -8,12 +11,20 @@ import { Text, View, Button, Platform, StyleSheet, Pressable } from 'react-nativ
 
 const HomeScreen = (props) => {
 
+    const { accessToken, setAccessToken, isLoading, setIsLoading } = useContext(mainContext)
+   
     const navRoute = useRoute();
     const { name } = navRoute.params;
     const { navigation, route } = props;
 
+
     const onPressLogout = () => {
-        navigation.navigate('Login');
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            setAccessToken(null);
+            navigation.navigate(SCREENS.LOGIN);
+        }, 300);
     }
 
     return (
@@ -23,8 +34,8 @@ const HomeScreen = (props) => {
             <Text style={HomeStyles.text}>{Platform.OS}, {Platform.Version}</Text>
             <Text style={HomeStyles.text}>Platform : {JSON.stringify(Platform.constants)}</Text> */}
 
-            <Pressable style={HomeStyles.button} onPress={() => onPressLogout()}>
-                <Text style={HomeStyles.text}>Logout</Text>
+            <Pressable style={HomeStyles.button} onPress={() => onPressLogout()} disabled={isLoading}>
+                <Text style={HomeStyles.text}>{isLoading ? <ActivityIndicator size="small" color="#f5f5f5" /> : "Logout"}</Text>
             </Pressable>
         </View>
     )

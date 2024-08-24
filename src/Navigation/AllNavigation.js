@@ -95,7 +95,7 @@ export const TabNavigator = () => {
                             <Ionicons name="menu" size={24} color={COLORS.Slate500} />
                         </Pressable>,
                     headerRightContainerStyle: {
-                        marginRight: 10
+                        marginRight: 8
                     }
                 }}
             />

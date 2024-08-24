@@ -8,47 +8,53 @@ import { mainContext } from '../../Contexts';
 const LoginScreen = (props) => {
 
     const { navigate } = props.navigation;
-    const {setAccessToken} = useContext(mainContext);
+    const { setAccessToken, isLoading, setIsLoading, setUserDetails } = useContext(mainContext);
 
-    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         number: '',
         password: ''
     })
 
     const TextInputHandler = (val, name) => {
-        setFormData({...formData, [name]: val})
+        setFormData({ ...formData, [name]: val })
     }
 
     const onFromSubmitHandler = async () => {
-        setIsLoading(true);
-        if (formData.number !== '' && formData.password !== '') {
-            try {
-                const res = await client.post('/login', formData)
-                const data = await res.data;
-                // console.log("data : ", data.status === 200 && data.statusMessage === 'Success');
-                if (data.status === "200" && data.statusMessage === 'Success') {
-                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
-                    setAccessToken(data.data.token);
-                    setTimeout(() => {
-                        setIsLoading(false);
-                        setFormData({ user_number: '', user_password: '' });
-                        navigate(SCREENS.HOME, { name: data.data.name })
-                    }, 500);
-                } else {
-                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
-                }
-            } catch (error) {
-                console.log("onFromSubmitHandler error : ", error.message)
-                ToastAndroid.show('Error : Something went wrong ' + error, ToastAndroid.SHORT);
-            } finally {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
-            } 
-        } else {
-            setIsLoading(false);
-            ToastAndroid.show('Please fill all fields!!', ToastAndroid.SHORT);
+        try {
+            setIsLoading(true);
+
+            if (formData.number === '' && formData.password === '') {
+                setIsLoading(false);
+                ToastAndroid.show('Both fields are required!!', ToastAndroid.SHORT);
+            }
+
+            if (formData.number.length !== 10) {
+                setIsLoading(false);
+                ToastAndroid.show('Please Enter 10 digit Mobile Number', ToastAndroid.SHORT);
+            }
+
+            const res = await client.post('/login', formData)
+            const data = await res.data;
+            const userInfo = data.data;
+            if (data.status !== "200" && data.statusMessage !== 'Success') {
+                return ToastAndroid.show(data.message, ToastAndroid.SHORT);
+            }
+            setAccessToken(userInfo.token);
+            ToastAndroid.show(data.message, ToastAndroid.SHORT);
+            setUserDetails({ name: userInfo.name, id: userInfo.id });
+
+            setTimeout(() => {
+                setFormData({ user_number: '', user_password: '' });
+                setIsLoading(false);
+                navigate(SCREENS.HOME, { name: data.data.name })
+            }, 900);
+
+        } catch (error) {
+            ToastAndroid.show('Error : Something went wrong ' + error, ToastAndroid.SHORT);
+        } finally {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
         }
     }
 
@@ -65,7 +71,9 @@ const LoginScreen = (props) => {
             <TextInput
                 keyboardType='decimal-pad'
                 style={styles.inputStyle}
-                value={formData.user_number}
+                value={formData.number}
+                maxLength={10}
+                minLength={10}
                 onChangeText={(val) => TextInputHandler(val, 'number')}
             />
 
@@ -74,7 +82,7 @@ const LoginScreen = (props) => {
                 secureTextEntry={true}
                 keyboardType='default'
                 style={styles.inputStyle}
-                value={formData.user_password}
+                value={formData.password}
                 onChangeText={(val) => TextInputHandler(val, 'password')}
             />
 

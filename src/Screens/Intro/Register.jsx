@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ActivityIndicator, StatusBar, StyleSheet, Text, TextInput, View, Pressable, ToastAndroid } from 'react-native';
 
 // Icons
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import { client } from '../../API/client.js';
+import { mainContext } from '../../Contexts/index.jsx';
+import SCREENS from '../index.js';
 
 const Register = (props) => {
 
+    const { isLoading, setIsLoading } = useContext(mainContext)
     const { navigate } = props.navigation;
-
-    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        user_name: '',
-        user_number: '',
-        user_password: ''
+        name: '',
+        number: '',
+        password: ''
     })
 
     const TextInputHandler = (val, name) => {
@@ -21,36 +22,39 @@ const Register = (props) => {
     }
 
     const onFromSubmitHandler = async () => {
-        setIsLoading(true);
-
-        // console.warn("Form Data : ", formData.user_number !== '', formData.user_password);
-        if (formData.user_name !== '' && formData.user_number !== '' && formData.user_password !== '') {
-            try {
-                const res = await client.post('/register', formData);
-                const data = await res.data
-                if (data.code == 200 && data.status == 'success') {
-                    ToastAndroid.show('Registered Successfully', ToastAndroid.SHORT);
-                    setTimeout(() => {
-                        setIsLoading(false);
-                        setFormData({ user_name: '', user_number: '', user_password: '' });
-                        navigate('Home', { name: formData.user_name });
-                    }, 500);
-
-                } else {
-                    ToastAndroid.show('Error in Registration : ' + data.message, ToastAndroid.LONG);
-                }
-            } catch (error) {
-                console.log("onFromSubmitHandler error : ", error)
-                ToastAndroid.show('Unknown Error : ' + error, ToastAndroid.LONG);
-            } finally {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
+        try {
+            setIsLoading(true);
+            if (formData.name === '' && formData.number === '' && formData.password === '') {
+                setIsLoading(false);
+                return ToastAndroid.show('Please Enter Credentials', ToastAndroid.SHORT);
             }
 
-        } else {
-            setIsLoading(false);
-            ToastAndroid.show('Please Enter Credentials', ToastAndroid.SHORT);
+            if (formData.number.length !== 10) {
+                setIsLoading(false);
+                return ToastAndroid.show('Please Enter 10 digit Mobile Number', ToastAndroid.SHORT);
+            }
+
+            const res = await client.post('/register', formData);
+            const data = await res.data
+
+            if (data.status !== "200" && data.statusMessage !== "Success") {
+                return ToastAndroid.show('Error : ' + data.message, ToastAndroid.LONG);
+            }
+
+            ToastAndroid.show('Registered Successfully', ToastAndroid.SHORT);
+            setTimeout(() => {
+                setFormData({ name: '', number: '', password: '' });
+                setIsLoading(false);
+                navigate(SCREENS.LOGIN);
+            }, 300);
+            
+        } catch (error) {
+            console.log("onFromSubmitHandler error : ", error)
+            ToastAndroid.show('Unknown Error : ' + error, ToastAndroid.LONG);
+        } finally {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
         }
     }
 
@@ -67,16 +71,18 @@ const Register = (props) => {
             <TextInput
                 keyboardType='ascii-capable'
                 style={styles.inputStyle}
-                value={formData.user_name}
-                onChangeText={(val) => TextInputHandler(val, 'user_name')}
+                value={formData.name}
+                onChangeText={(val) => TextInputHandler(val, 'name')}
             />
 
             <Text style={styles.labelText}>Number</Text>
             <TextInput
                 keyboardType='decimal-pad'
                 style={styles.inputStyle}
-                value={formData.user_number}
-                onChangeText={(val) => TextInputHandler(val, 'user_number')}
+                value={formData.number}
+                maxLength={10}
+                minLength={10}
+                onChangeText={(val) => TextInputHandler(val, 'number')}
             />
 
             <Text style={styles.labelText}>Password</Text>
@@ -84,8 +90,8 @@ const Register = (props) => {
                 secureTextEntry={true}
                 keyboardType='default'
                 style={styles.inputStyle}
-                value={formData.user_password}
-                onChangeText={(val) => TextInputHandler(val, 'user_password')}
+                value={formData.password}
+                onChangeText={(val) => TextInputHandler(val, 'password')}
             />
             <View style={styles.innerContainer}>
                 {/* <Pressable>
