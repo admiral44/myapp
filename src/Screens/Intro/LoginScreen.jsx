@@ -25,12 +25,12 @@ const LoginScreen = (props) => {
 
             if (formData.number === '' && formData.password === '') {
                 setIsLoading(false);
-                ToastAndroid.show('Both fields are required!!', ToastAndroid.SHORT);
+                return ToastAndroid.show('Both fields are required!!', ToastAndroid.SHORT);
             }
 
             if (formData.number.length !== 10) {
                 setIsLoading(false);
-                ToastAndroid.show('Please Enter 10 digit Mobile Number', ToastAndroid.SHORT);
+                return ToastAndroid.show('Please Enter 10 digit Mobile Number', ToastAndroid.SHORT);
             }
 
             const res = await client.post('/login', formData)
@@ -46,7 +46,7 @@ const LoginScreen = (props) => {
             setTimeout(() => {
                 setFormData({ user_number: '', user_password: '' });
                 setIsLoading(false);
-                navigate(SCREENS.HOME, { name: data.data.name })
+                return navigate(SCREENS.HOME, { name: data.data.name });
             }, 900);
 
         } catch (error) {
@@ -67,9 +67,9 @@ const LoginScreen = (props) => {
                 <Text style={styles.title}>Login</Text>
             </View>
 
-            <Text style={styles.labelText}>Number</Text>
+            <Text style={styles.labelText}>Phone number</Text>
             <TextInput
-                keyboardType='decimal-pad'
+                keyboardType="number-pad"
                 style={styles.inputStyle}
                 value={formData.number}
                 maxLength={10}
